@@ -45,7 +45,7 @@ class Login extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/admin' } }
+    //const { from } = this.props.location.state || { from: { pathname: '/admin' } }
 
     if (this.state.redirect === true) {
       return <Redirect to={'/admin'} />

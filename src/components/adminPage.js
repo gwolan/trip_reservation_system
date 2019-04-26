@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  BrowserRouter, Link, Route } from 'react-router-dom';
 import Login from './login';
 import Logout from './logout';
+import Reports from './reports';
 import  {app}  from '../base';
 class adminPage extends Component {
 
@@ -55,8 +56,10 @@ class adminPage extends Component {
         </div>
         <div>
           <BrowserRouter>
+            <Link className="button" to="/logout">Log Out </Link>
+            <Link className="button" to="/reports">Reports </Link>
+            <Route exact path="/reports" component ={Reports}/>
             <Route exact path="/logout" component ={Logout}/>
-            <Link className="button" to="/logout">Log Out</Link>
           </BrowserRouter>
         </div>
       </div>
