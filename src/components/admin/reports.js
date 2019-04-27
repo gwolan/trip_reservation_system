@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import  {firestore}  from '../base';
+import  {firestore}  from '../../utilities/base';
 import Report from './report';
+import './../../styles/Report.css'
 
 class Reports extends Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class Reports extends Component {
         return (
             <div>
                 <div>
-                    <h3>Reservations to cancel</h3>
+                    <h3 className="ReportListName">Reservations to cancel</h3>
                 </div>
                 <ul className="ReportsList">
                     {this.state.list.map( (report)=> <li key={report.id} className="Report">< Report id={report.id} contents={report.data} /></li>)}

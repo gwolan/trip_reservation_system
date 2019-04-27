@@ -3,7 +3,8 @@ import {  BrowserRouter, Link, Route } from 'react-router-dom';
 import Login from './login';
 import Logout from './logout';
 import Reports from './reports';
-import  {app}  from '../base';
+import  {app}  from '../../utilities/base';
+import './../../styles/AdminPage.css';
 class adminPage extends Component {
 
   constructor(props) {
@@ -52,12 +53,14 @@ class adminPage extends Component {
     return (
       <div>
         <div>
-          <h1>Strona dla admina </h1>
+          <h1 className="App-header">Pracownicy</h1>
         </div>
         <div>
           <BrowserRouter>
-            <Link className="button" to="/logout">Log Out </Link>
-            <Link className="button" to="/reports">Reports </Link>
+            <ul className="App-NaviBar">
+              <Link className="App-NaviBar-Button" to="/logout">Log Out </Link>
+              <Link className="App-NaviBar-Button" to="/reports">Reports </Link
+            ></ul>
             <Route exact path="/reports" component ={Reports}/>
             <Route exact path="/logout" component ={Logout}/>
           </BrowserRouter>

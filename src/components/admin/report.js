@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import  {firestore}  from '../base';
+import  {firestore}  from '../../utilities/base';
+import './../../styles/Report.css';
 
 class Report extends Component {
 
@@ -50,7 +51,7 @@ class Report extends Component {
                     <div>
                         <div className="ReportNameUnresolved" style={{fontWeight: "bold"}}>>{singleRaport.email}</div>
                         <div className="ReportType">{singleRaport.type}</div>
-                        <button onClick={this.resolveFunction}>Resolve</button>
+                        <button className ="ReportButton" onClick={this.resolveFunction}>Resolve</button>
                     </div>
                 </React.Fragment>
             );
