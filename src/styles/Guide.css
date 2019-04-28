@@ -1,0 +1,24 @@
+.GuideList {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    width: 80%;
+}
+
+.Guide {
+    background-color: #883333;
+    color: wheat;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.GuideName {
+    background-color: #663333;
+    color: #dd8888;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+}

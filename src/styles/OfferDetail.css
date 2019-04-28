@@ -1,0 +1,58 @@
+body {
+    background-color: #eeccaa;
+}
+
+.container {
+    background-color: #eeccaa;
+    width: 65%;
+    height: 100%;
+    margin: auto;
+    align-items: center;
+}
+
+.offerHeader {
+    background-color: #663333;
+    min-height: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.img {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    margin: auto;
+    align-self: center;
+}
+
+.offerContainer {
+    background-color: #883333;
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+    align-self: center;
+    color: white;
+    text-align: justify
+}
+
+.offerDescription {
+    font-size: calc(10px + 2vmin);
+    color: white;
+    text-align: justify
+}
+
+.callendarButton {
+    color: inherit;
+}
+
+ a:link { color:inherit; background-color:inherit; }
+ a:visited { color:inherit; background-color:inherit; }
+ a:hover { color:inherit; background-color:inherit; }
+ a:active { color:inherit; background-color:inherit; }
