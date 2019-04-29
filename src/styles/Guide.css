@@ -7,18 +7,22 @@
 }
 
 .Guide {
-    background-color: #883333;
-    color: wheat;
-    margin: 20px;
-    padding: 10px;
+    background-color: dd8888;
+    color: white;
+    margin-bottom: 4px;
     cursor: pointer;
 }
 
-.GuideName {
-    background-color: #663333;
-    color: #dd8888;
-    text-align: center;
+.GuideTitle {
+ background-color: #663333;
+    color: white;
+    padding: 5px;
+    font-size: 1.2em;
     font-weight: bold;
-    font-size: 20px;
-    padding: 2px;
+}
+
+.GuideDescription {
+    background-color: #663333;
+    color:wheat;
+    padding: 5px;
 }

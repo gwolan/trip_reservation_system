@@ -1,21 +1,14 @@
 import React, {
     Component
 } from 'react'
-import {
-    firestore
-} from '../../utilities/base'
 
-class Guide extends Component {
-    render() {
-        const guide = this.props.contents;
-        console.log(guide)
-        return (
-            <React.Fragment>
-                    <div className="Guide">{guide.name} {guide.lastName}</div>
-                    <div>{guide.description ? guide.description : "Tymczasowo opis przewodnika jest niedostępny"}</div>
-            </React.Fragment>
-        );
-    }
+const Guide = (props) => {
+    return (
+        <div className="Guide">
+            <div className="GuideTitle">{props.guide.name} {props.guide.lastName}</div>
+            <div className="GuideDescription">{props.guide.description ? props.guide.description : "Tymczasowo opis przewodnika jest niedostępny"}</div>
+        </div>
+    );
 }
 
 export default Guide
