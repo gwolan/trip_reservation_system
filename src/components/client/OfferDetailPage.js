@@ -19,7 +19,7 @@ class OfferDetailPage extends Component {
     }
     componentDidMount() {
         const gg = []
-        const offers = firestore.collection('/offers').doc('offer1').get()
+        const offers = firestore.collection('/offers').doc(this.props.match.params.id).get()
 
         offers.then((response) => {
             const offer = response.data()
