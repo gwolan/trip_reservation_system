@@ -1,0 +1,30 @@
+.OfferList {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    width: 80%;
+}
+
+.OfferLink, .OfferLink:link, .OfferLink:visited, .OfferLink:hover, .OfferLink:active {
+    color: wheat;
+    text-decoration: none;
+    outline: 0;
+}
+
+.Offer {
+    background-color: #883333;
+    color: wheat;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.OfferName {
+    background-color: #663333;
+    color: #dd8888;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+}

@@ -1,0 +1,45 @@
+.ReportList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: center;
+    width: 80%;
+}
+
+.ReportListName {
+    background-color: #663333;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+    margin: 0;
+}
+
+.Report {
+    background-color: #883333;
+    color: wheat;
+    margin: 5px;
+    padding: 5px;
+}
+
+.ReportName {
+    background-color: #663333;
+    color: #dd8888;
+    font-weight: normal;
+    font-size: 16px;
+    padding: 2px;
+}
+
+.ReportNameUnresolved{
+    background-color: #663333;
+    color: #dd8888;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+}
+
+.ReportButton {
+    color: #663333;;
+    text-align: center;
+  }

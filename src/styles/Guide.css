@@ -1,0 +1,28 @@
+.GuideList {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    width: 80%;
+}
+
+.Guide {
+    background-color: dd8888;
+    color: white;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.GuideTitle {
+ background-color: #663333;
+    color: white;
+    padding: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.GuideDescription {
+    background-color: #663333;
+    color:wheat;
+    padding: 5px;
+}
