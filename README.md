@@ -1,8 +1,19 @@
+# Academic project. Trip reservation system for ZOO Wroclaw.
+
+Technologies used:
+* Javascript (REACT)
+* Google Firebase
+<br>
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Installs necessary node modules.
 
 ### `npm start`
 

@@ -1,0 +1,100 @@
+body {
+    background-color: #eeccaa;
+}
+
+.container {
+    background-color: #eeccaa;
+    width: 65%;
+    height: 100%;
+    margin: auto;
+    align-items: center;
+}
+
+.offerHeader {
+    background-color: #663333;
+    min-height: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.img {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    margin: auto;
+    align-self: center;
+}
+
+.offerTitle {
+    color: white;
+    padding-top: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.offerPrice {
+    margin-right: 15px;
+    margin-left: 15px;
+    color: white;
+}
+
+.offerContainer {
+    background-color: #883333;
+    box-sizing: border-box;
+    width: 100%;
+    padding-bottom: 5px;
+    margin: auto;
+    align-self: center;
+    color: white;
+    text-align: justify
+}
+
+.offerDescription {
+    margin-right: 15px;
+    margin-left: 15px;
+    color: white;
+    text-align: justify
+}
+
+.guideTitle {
+    margin-top: 10px;
+    background-color:#eeccaa;
+    margin-right: 15px;
+    margin-left: 15px;
+    color: #663333;
+    font-size: 1.5em;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+.guideContainer {
+    background-color:#eeccaa;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.callendarButton {
+    margin-right: 15px;
+    margin-left: 15px;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.callendarButton:hover {
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
+ /* a:link { color:inherit; background-color:inherit; }
+ a:visited { color:inherit; background-color:inherit; }
+ a:hover { color:inherit; background-color:inherit; }
+ a:active { color:inherit; background-color:inherit; } */

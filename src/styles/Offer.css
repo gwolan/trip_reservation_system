@@ -6,6 +6,12 @@
     width: 80%;
 }
 
+.OfferLink, .OfferLink:link, .OfferLink:visited, .OfferLink:hover, .OfferLink:active {
+    color: wheat;
+    text-decoration: none;
+    outline: 0;
+}
+
 .Offer {
     background-color: #883333;
     color: wheat;

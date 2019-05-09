@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {firestore} from '../../utilities/base';
 import Offer from './Offer';
 import './../../styles/Offer.css'
@@ -31,7 +32,13 @@ class OfferList extends Component {
     render() {
         return (
                 <ul className="OfferList">
-                    {this.state.list.map( (offer)=> <li key={offer.id} className="Offer">< Offer contents={offer.data} /></li>)}
+                    {this.state.list.map( (offer)=>
+                        <li key={offer.id} className="Offer">
+                            <Link className="OfferLink" to={`/offerDetail/${offer.id}`}>
+                                <Offer contents={offer.data}/>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
         )
     }

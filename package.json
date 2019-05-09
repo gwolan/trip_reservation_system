@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^3.14.1",
+    "axios": "^0.18.0",
+    "firebase": "^5.10.1",
     "re-base": "^4.0.0",
     "react": "^16.8.5",
     "react-addons-css-transition-group": "^15.6.2",
