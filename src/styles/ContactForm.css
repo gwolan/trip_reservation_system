@@ -1,0 +1,68 @@
+.ContactFormPage-header {
+    position: relative;
+    width: 90%;
+    min-height: 6vh;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #883333;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.ContactForm {
+    width: 90%;
+    height: 90%;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.ContactForm-label{
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    width: "100%";
+    font-weight: bold;
+    color: black;
+}
+
+.ReservationList {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    width: 80%;
+}
+
+.Reservation {
+    background-color: #883333;
+    color: wheat;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.SelectedReservation {
+    background-color: #883333;
+    color: wheat;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border: 4px solid teal;
+    border-radius: 5px;
+}
+
+.ContactForm-submit {
+    background-color: #883333;
+    color: wheat;
+    height: 30px;
+    width: 100%;
+    cursor: pointer;
+    border: 0;
+}
