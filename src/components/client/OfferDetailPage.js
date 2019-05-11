@@ -53,7 +53,7 @@ class OfferDetailPage extends Component {
                     <h2 className="offerTitle">Opis wycieczki:</h2>
                     <p className="offerDescription">{this.state.offer.description}</p>
                     <p className="offerPrice"><b>Cena wycieczki:</b> {this.state.offer.price} zł/osobę</p>
-                    <a href='/harmonogram' className='callendarButton'>Zobacz Harmonogram wycieczek</a>
+                    <a href={`/timetable/${this.props.match.params.id}`} className='callendarButton'>Zobacz Harmonogram wycieczek</a>
                     <div className="guideTitle">Przewodnicy: </div>
                     <div className="guideContainer">
                         {this.state.guides.map((guide) => <Guide guide={guide} />)}
