@@ -32,7 +32,7 @@ class Reports extends Component {
         return (
             <div>
                 <div>
-                    <h3 className="ReportListName">Reservations to cancel</h3>
+                    <h3 className="ReportListName">Reports list</h3>
                 </div>
                 <ul className="ReportsList">
                     {this.state.list.map( (report)=> <li key={report.id} className="Report">< Report id={report.id} contents={report.data} /></li>)}
