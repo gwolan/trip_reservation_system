@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { Spinner } from '@blueprintjs/core'
 import { firestore } from '../../utilities/base'
+import firebase from 'firebase';
+import validateEmail from '../../utilities/validateEmail'
 import './../../styles/ContactForm.css';
 
 const UIwaitTime = 2000
@@ -16,7 +18,9 @@ class ContactFormPage extends Component {
         name: "",
         lastName: "",
         list: [],
-        waitingForUI: false
+        waitingForUI: false,
+        selectedReservation: null,
+        submitted: false,
     }
 
     this.reservationsFetchTimeout = null
@@ -75,7 +79,9 @@ class ContactFormPage extends Component {
           name: this.state.name,
           lastName: this.state.lastName,
           list: unwrappedReservations,
-          waitingForUI: this.state.waitingForUI
+          waitingForUI: this.state.waitingForUI,
+          selectedReservation: this.state.selectedReservation,
+          submitted: this.state.submitted,
         })
         console.log("updated Reservation List:")
         console.log(this.state.list);
@@ -119,7 +125,9 @@ class ContactFormPage extends Component {
       name: name,
       lastName: lastName,
       list: this.state.list,
-      waitingForUI: true
+      waitingForUI: true,
+      selectedReservation: null,
+      submitted: this.state.submitted,
     })
     clearTimeout(this.reservationsFetchTimeout)
     this.reservationsFetchTimeout = setTimeout(
@@ -130,10 +138,26 @@ class ContactFormPage extends Component {
             name: this.state.name,
             lastName: this.state.lastName,
             list: this.state.list,
-            waitingForUI: false
+            waitingForUI: false,
+            selectedReservation: this.state.selectedReservation,
+            submitted: this.state.submitted,
           })
         })
       }, UIwaitTime)
+  }
+
+  setSelected(event) {
+    if(event.target.tagName === 'LI') {
+      this.setState({
+        email: this.state.email,
+        name: this.state.name,
+        lastName: this.state.lastName,
+        list: this.state.list,
+        waitingForUI: this.state.waitingForUI,
+        selectedReservation: event.target.getAttribute('select-key'),
+        submitted: this.state.submitted,
+      })
+    }
   }
 
   renderReservationList() {
@@ -165,9 +189,9 @@ class ContactFormPage extends Component {
           <label className="ContactForm-label">
             Lista rezerwacji
           </label>
-          <ul className="ReservationList">
-            {this.state.list.map( (reservation)=>
-              <li key={reservation.id} className={reservation.id===this.state.selectedReservation ? "SelectedReservation" : "Reservation"}>
+          <ul className="ReservationList" onClick={(event) => {this.setSelected(event)}}>
+            {this.state.list.map( (reservation, index)=>
+              <li key={index} select-key={index} className={index==this.state.selectedReservation ? "SelectedReservation" : "Reservation"}>
                 {
                   reservation.data.trips.data.offer.data.name + ", " +
                   reservation.data.date.toDate().toLocaleString() + ", " +
@@ -182,10 +206,58 @@ class ContactFormPage extends Component {
   }
 
   submitForm() {
+    if (this.state.email.length === 0)
+      alert("Proszę podać email")
+    else if (!validateEmail(this.state.email))
+      alert("Podano niepoprawny email")
+    else if (this.state.name.length === 0)
+      alert("Proszę podać imię")
+    else if (this.state.lastName.length === 0)
+      alert("Proszę podać nazwisko")
+    else if (this.state.selectedReservation === null)
+      alert("Proszę wybrać rezerwację")
+    else if (this.message.value.length === 0)
+      alert("Proszę podać powód zgłoszenia")
+    else
+      firestore.collection("/reports").add({
+        createdat: firebase.firestore.Timestamp.now(),
+        email: this.state.email,
+        resolved: false,
+        trip: firestore.doc("/trips/" + this.state.list[this.state.selectedReservation].data.trips.id),
+        type: this.message.value
+      }).then(() => {
+        console.log("dodano zgłoszenie")
+        this.setState({
+          email: this.state.email,
+          name: this.state.name,
+          lastName: this.state.lastName,
+          list: this.state.list,
+          waitingForUI: this.state.waitingForUI,
+          selectedReservation: this.state.selectedReservation,
+          submitted: true,
+        })
+      }).catch(function(error) {
+        console.error("Wystąpił błąd podczas dodawania dokumentu: ", error);
+    });
     
   }
 
   render() {
+    if (this.state.submitted === true) {
+      return (
+        <div>
+          <h1 className="ContactFormPage-header" style={{marginTop: "200px", textAlign: "center"}}>
+            Formularz zgłoszony prawidłowo<br/>
+            Dziękujemy za zgłoszenie formularza
+          </h1>
+          <div style={{width: "auto", padding: "10px 80px 100px"}}>
+            <button className="ReturnButton">
+              <Link className="ReturnLink" to="/">Powrót do strony głównej</Link>
+            </button>
+          </div>
+        </div>
+      )
+    }
     return (
       <div>
         <h1 className="ContactFormPage-header">
@@ -218,10 +290,10 @@ class ContactFormPage extends Component {
               <label className="ContactForm-label">
                 Treść wiadomości
               </label>
-              <textarea style={{width: "100%"}} rows="10" name="message" placeholder="Treść wiadomości" required="required"></textarea>
+              <textarea style={{width: "100%"}} rows="10" name="message" ref={(textarea) => {this.message = textarea}} placeholder="Treść wiadomości" required="required"></textarea>
             </div>
             <div style={{width: "auto", padding: "10px 25px 100px"}}>
-              <input className="ContactForm-submit" type="submit" value="Wyślij"></input>
+              <input className="ContactForm-submit" type="button" onClick={(event) => {this.submitForm(event)}} value="Wyślij"></input>
             </div>
           </form>
         </div>

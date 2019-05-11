@@ -66,3 +66,21 @@
     cursor: pointer;
     border: 0;
 }
+
+.ReturnButton {
+    background-color: #883333;
+    color: wheat;
+    height: 30px;
+    width: 100%;
+    margin: auto;
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    outline: 0;
+}
+
+.ReturnLink, .ReturnLink:link, .ReturnLink:visited, .ReturnLink:hover, .ReturnLink:active {
+    color: wheat;
+    text-decoration: none;
+    outline: 0;
+}
