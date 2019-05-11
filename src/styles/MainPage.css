@@ -22,7 +22,7 @@ body {
 }
 
 .App-Footer {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   list-style-type: none;
