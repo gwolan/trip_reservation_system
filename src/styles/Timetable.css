@@ -10,7 +10,7 @@ body {
     align-items: center;
 }
 
-.offerHeader {
+.timetableHeader {
     background-color: #663333;
     min-height: 6vh;
     display: flex;
@@ -19,6 +19,7 @@ body {
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    padding: 15px
 }
 
 .timetableContainer {
@@ -59,7 +60,7 @@ th {
 .button {
     padding: 3px 5px;
     font-size: calc(10px + 0.5vmin);
-    margin-left: 15px;
+    margin-left: 20px;
     background-color: #eeccaa;
     color: #883333;
     font-weight: bold;

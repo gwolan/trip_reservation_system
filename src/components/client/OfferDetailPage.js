@@ -18,10 +18,10 @@ class OfferDetailPage extends Component {
         }
     }
     componentDidMount() {
-        const gg = []
+        let gg = []
         const offers = firestore.collection('/offers').doc(this.props.match.params.id).get()
 
-        offers.then((response) => {
+     /*   offers.then((response) => {
             const offer = response.data()
             this.setState({ offer: offer })
             const trips = offer.trips
@@ -39,8 +39,24 @@ class OfferDetailPage extends Component {
                     })
                 })
             })
-        }
-        )
+        }) */
+
+        offers.then(response => {
+            const offer = response.data()
+            this.setState({ offer: offer })
+        })
+
+        const trips = firestore.collection(`/offers/${this.props.match.params.id}/trips`).get()
+        trips.then(response => {
+            response.docs.map(doc => doc.id).forEach(id => {
+                firestore.collection(`offers/${this.props.match.params.id}/trips/${id}/guides`).get().then(response => {
+                    gg = this.state.guides.concat(response.docs.map(doc => doc.data()))
+                    this.setState({
+                        guides: gg
+                    })
+                })
+            })
+        })
     }
 
     render() {

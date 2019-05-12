@@ -31,13 +31,16 @@ class Timetable extends Component {
         offers.then(response => {
                 const offer = response.data()
                 this.setState({ offer: offer })
-                const trips = offer.trips
-                trips.forEach(element => {
-                    element.get().then(data => {
-                        let tr = data.data()
-                        tr.id = data.id
-                        this.trips.push(tr)
-                })
+        })
+        const trips = firestore.collection(`/offers/${this.props.match.params.id}/trips`).get()
+        trips.then(response => {
+            console.log(response)
+            let tr
+            this.trips = response.docs.map(doc => {
+                console.log(doc.data())
+                tr = doc.data()
+                tr.id = doc.id
+                return tr
             })
         })
     }
@@ -56,11 +59,11 @@ class Timetable extends Component {
             const trip = this.trips.find(trip => {
                 return trip.dates.find(date => {
                     tmpDate = date.toDate()
+                    console.log(tmpDate)
                     tmpDate.setHours(0,0,0,0)
                     return tmpDate.getTime() === startDate.getTime()
                 }) !== undefined
             })
-            
             // jak jest to wtedy przetworz go
             if(trip !== undefined) {
                 const map = new Map()
@@ -73,8 +76,8 @@ class Timetable extends Component {
                     reservations: map
                 })
                 // pobierz wszystkie rezerwacje
-                const reservations = firestore.collection(`/trips/${trip.id}/reservations`).get()
-                const guides = firestore.collection(`/trips/${trip.id}/guides`).get()
+                const reservations = firestore.collection(`/offers/${this.props.match.params.id}/trips/${trip.id}/reservations`).get()
+                const guides = firestore.collection(`/offers/${this.props.match.params.id}/trips/${trip.id}/guides`).get()
                 let rr = []
                 let gg = []
                 reservations.then(response => { // TODO na razie jest jeden
@@ -128,21 +131,17 @@ class Timetable extends Component {
     }
 
     renderHeader() {
-        if(this.state.reservations.keys().next().value !== undefined) {
-            const key = this.state.reservations.keys().next().value
-            return (
-                <tr>
-                    <th> </th>
-                    <th>Godz.</th>
-                    {this.state.reservations.get(key).map(e => {
-                        console.log(e.guide.guide)
-                        return this.renderHeaderCol(e.id, e.guide.guide)
-                    })}
-                </tr>
-            )
-        } else {
-            return (<div><h2>Niestety nie ma obecnie wycieczek dla podanej daty</h2></div>)
-        }
+        const key = this.state.reservations.keys().next().value
+        return (
+            <tr>
+                <th> </th>
+                <th>Godzina</th>
+                {this.state.reservations.get(key).map(e => {
+                    console.log(e.guide.guide)
+                    return this.renderHeaderCol(e.id, e.guide.guide)
+                })}
+            </tr>
+        )
     }
 
     renderRows() {
@@ -152,36 +151,44 @@ class Timetable extends Component {
         return keys.map(key => {
             return (
                 <tr>
-                    <th>{index}</th>
+                    <th>{index++}</th>
                     <th>{moment(key).local().format('HH:mm')}</th>
                     {this.state.reservations.get(key).map(val => {
-                        console.log(val.participants)
                         return (
-                            <th>{val.participants} <Button className="button" variant="primary" size="lg" active>REZERWUJ</Button></th>
+                            <th>{val.participants}/30 <Button className="button" variant="primary" size="lg" active>REZERWUJ</Button></th>
                         )
                     })}
                 </tr>
             )
-          
         })
+    }
+
+    renderTable() {
+        if(this.state.reservations.keys().next().value !== undefined) {
+            return (
+                <table id='timetable'>
+                    <tbody>
+                        {this.renderHeader()}
+                        {this.renderRows()}
+                    </tbody>
+                </table>
+            )
+        } else {
+            return (<div><h2>Niestety nie ma obecnie wycieczek dla podanej daty</h2></div>)
+        }
     }
 
     render() {
         return (
             <div className="container">
-                <h1 className="offerHeader">Harmonogram</h1>
+                <h1 className="timetableHeader">Harmonogram</h1>
                 <div className="timetableContainer">
                     <DatePicker className="datePicker"
                         selected={this.state.startDate}
                         onChange={this.handleChange}
                     />
                     <div>
-                        <table id='timetable'>
-                            <tbody>
-                                {this.renderHeader()}
-                                {this.renderRows()}
-                            </tbody>
-                        </table>
+                       {this.renderTable()}
                     </div>
                 </div>
             </div>
