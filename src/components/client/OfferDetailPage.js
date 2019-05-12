@@ -18,10 +18,10 @@ class OfferDetailPage extends Component {
         }
     }
     componentDidMount() {
-        const gg = []
+        let gg = []
         const offers = firestore.collection('/offers').doc(this.props.match.params.id).get()
 
-        offers.then((response) => {
+     /*   offers.then((response) => {
             const offer = response.data()
             this.setState({ offer: offer })
             const trips = offer.trips
@@ -39,8 +39,24 @@ class OfferDetailPage extends Component {
                     })
                 })
             })
-        }
-        )
+        }) */
+
+        offers.then(response => {
+            const offer = response.data()
+            this.setState({ offer: offer })
+        })
+
+        const trips = firestore.collection(`/offers/${this.props.match.params.id}/trips`).get()
+        trips.then(response => {
+            response.docs.map(doc => doc.id).forEach(id => {
+                firestore.collection(`offers/${this.props.match.params.id}/trips/${id}/guides`).get().then(response => {
+                    gg = this.state.guides.concat(response.docs.map(doc => doc.data()))
+                    this.setState({
+                        guides: gg
+                    })
+                })
+            })
+        })
     }
 
     render() {
@@ -53,7 +69,7 @@ class OfferDetailPage extends Component {
                     <h2 className="offerTitle">Opis wycieczki:</h2>
                     <p className="offerDescription">{this.state.offer.description}</p>
                     <p className="offerPrice"><b>Cena wycieczki:</b> {this.state.offer.price} zł/osobę</p>
-                    <a href='/harmonogram' className='callendarButton'>Zobacz Harmonogram wycieczek</a>
+                    <a href={`/timetable/${this.props.match.params.id}`} className='callendarButton'>Zobacz Harmonogram wycieczek</a>
                     <div className="guideTitle">Przewodnicy: </div>
                     <div className="guideContainer">
                         {this.state.guides.map((guide) => <Guide guide={guide} />)}

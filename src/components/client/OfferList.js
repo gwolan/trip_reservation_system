@@ -4,6 +4,7 @@ import {firestore} from '../../utilities/base';
 import Offer from './Offer';
 import './../../styles/Offer.css'
 
+
 class OfferList extends Component {
     constructor(props) {
         super(props);

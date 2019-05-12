@@ -5,6 +5,7 @@ import MainPage from './client/mainPage'
 import AdminPage from './admin/adminPage'
 import OfferDetailPage from './client/OfferDetailPage'
 import ContactFormPage from './client/ContactFormPage'
+import Timetable from './client/Timetable';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Route exact path="/admin" component ={AdminPage}/>
           <Route exact path="/offerDetail/:id" component = {OfferDetailPage}/>
           <Route exact path="/contactForm" component = {ContactFormPage}/>
+          <Route exact path="/timetable/:id" component = {Timetable}/>
         </BrowserRouter>
       </div>
     </div>

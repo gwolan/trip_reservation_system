@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 
 const Guide = (props) => {
+    console.log(props)
     return (
         <div className="Guide">
             <div className="GuideTitle">{props.guide.name} {props.guide.lastName}</div>
