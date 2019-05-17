@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import validateEmail from '../../utilities/validateEmail'
 import './../../styles/ContactForm.css';
 
-const UIwaitTime = 2000
+const FetchwaitTime = 2000
 
 class ContactFormPage extends Component {
 
@@ -17,8 +17,8 @@ class ContactFormPage extends Component {
         email: "",
         name: "",
         lastName: "",
-        list: [],
-        waitingForUI: false,
+        reservationList: [],
+        waitingForFetch: false,
         selectedReservation: null,
         submitted: false,
     }
@@ -26,43 +26,15 @@ class ContactFormPage extends Component {
     this.reservationsFetchTimeout = null
   }
 
-  unwrapTrips(trips) {
-    var unwrappedTrips = trips
-    return new Promise((resolve, reject) => {
-      trips.data.offer.get().then(doc => {
-        unwrappedTrips.data.offer = {
-          id: doc.id,
-          data: doc.data()
-        }
-        resolve(unwrappedTrips)
-      }).catch(err => {
-        console.error(err)
-        reject(err)
-      })
-    })
-  }
-  /*
   unwrapReservations(reservations) {
-    const contactFormPage = this
-    var unwrappedReservations = reservations
-    reservations.forEach((element, index) => {
-      element.data.trips.get().then(doc => {
-          unwrappedReservations[index].data.trip = contactFormPage.unwrapTrips({id: doc.id, data: doc.data()})
-      }).catch(err => console.error(err))
-    });
-    return unwrappedReservations
-  }
-  */
-  unwrapReservations(reservations) {
-    const contactFormPage = this
-    return Promise.all(reservations.map((element, index) => {
+    return Promise.all(reservations.map((reservation) => {
         return new Promise((resolve, reject) => {
-          element.data.trips.get().then(doc => {
-            contactFormPage.unwrapTrips({id: doc.id, data: doc.data()}).then((unwrappedTrips) => {
-              var unwrappedReservation = element
-              unwrappedReservation.data.trips = unwrappedTrips
-              resolve(unwrappedReservation)
-            })
+          // reservation -> parent       -> parent -> parent -> parent
+          // reservation -> reservations -> trip   -> trips  -> offer
+          reservation.ref.parent.parent.parent.parent.get().then( (offerDoc) => {
+            var unwrappedReservation = reservation
+            unwrappedReservation.data.offerName = offerDoc.get("name")
+            resolve(unwrappedReservation)
           }).catch(err => {
             console.error(err)
             reject(err)
@@ -70,42 +42,58 @@ class ContactFormPage extends Component {
         })
       }));
   }
-  
-  setReservations(reservations) {
+
+  pushReservations(reservations) {
     return new Promise((resolve) => {
       this.unwrapReservations(reservations).then(unwrappedReservations => {
+        var allReservations = this.state.reservationList
+        allReservations = allReservations.concat(unwrappedReservations)
         this.setState({
           email: this.state.email,
           name: this.state.name,
           lastName: this.state.lastName,
-          list: unwrappedReservations,
-          waitingForUI: this.state.waitingForUI,
+          reservationList: allReservations,
+          waitingForFetch: this.state.waitingForFetch,
           selectedReservation: this.state.selectedReservation,
           submitted: this.state.submitted,
         })
         console.log("updated Reservation List:")
-        console.log(this.state.list);
+        console.log(this.state.reservationList);
         resolve()
       })
     })
   }
-  
+
   fetchReservations() {
-    const ContactFormPage = this
     return new Promise((resolve, reject) => {
-      firestore.collection("/reservations").where(
-        "email", "==", ContactFormPage.state.email
-      ).where(
-        "name", "==", ContactFormPage.state.name
-      ).where(
-        "lastName", "==", ContactFormPage.state.lastName
-      ).get().then(function(qr) {
-          ContactFormPage.setReservations(qr.docs.map(doc => ({id: doc.id, data: doc.data()}))).then(() => {
-            resolve()
+      firestore.collection("offers").get().then( (offersCollection) => {
+        offersCollection.docs.forEach( (offerDoc) => {
+          offerDoc.ref.collection("trips").get().then( (tripsCollection) => {
+              tripsCollection.docs.forEach( (tripDoc) => {
+                tripDoc.ref.collection("reservations").where(
+                  "email", "==", this.state.email
+                ).where(
+                  "name", "==", this.state.name
+                ).where(
+                  "lastName", "==", this.state.lastName
+                ).get().then( (resCollection) => {
+                  if (resCollection.docs.length !== 0) {
+                    this.pushReservations(resCollection.docs.map(resDoc => ({
+                      id: resDoc.id,
+                      data: resDoc.data(),
+                      ref: resDoc.ref
+                    }))).then(() => {
+                      resolve()
+                    })
+                  }
+                  resolve()
+                }).catch( (error) => {
+                  console.log(error)
+                  reject(error)
+                })
+              })
           })
-      }).catch(function(error) {
-          console.log(error)
-          reject(error)
+        })
       })
     })
   }
@@ -124,8 +112,8 @@ class ContactFormPage extends Component {
       email: email,
       name: name,
       lastName: lastName,
-      list: this.state.list,
-      waitingForUI: true,
+      reservationList: this.state.reservationList,
+      waitingForFetch: true,
       selectedReservation: null,
       submitted: this.state.submitted,
     })
@@ -137,13 +125,13 @@ class ContactFormPage extends Component {
             email: this.state.email,
             name: this.state.name,
             lastName: this.state.lastName,
-            list: this.state.list,
-            waitingForUI: false,
+            reservationList: this.state.reservationList,
+            waitingForFetch: false,
             selectedReservation: this.state.selectedReservation,
             submitted: this.state.submitted,
           })
         })
-      }, UIwaitTime)
+      }, FetchwaitTime)
   }
 
   setSelected(event) {
@@ -152,8 +140,8 @@ class ContactFormPage extends Component {
         email: this.state.email,
         name: this.state.name,
         lastName: this.state.lastName,
-        list: this.state.list,
-        waitingForUI: this.state.waitingForUI,
+        reservationList: this.state.reservationList,
+        waitingForFetch: this.state.waitingForFetch,
         selectedReservation: event.target.getAttribute('select-key'),
         submitted: this.state.submitted,
       })
@@ -161,7 +149,7 @@ class ContactFormPage extends Component {
   }
 
   renderReservationList() {
-    if (this.state.waitingForUI) {
+    if (this.state.waitingForFetch) {
       return (
         <div>
           <label className="ContactForm-label">
@@ -171,7 +159,7 @@ class ContactFormPage extends Component {
         </div>
       )
     }
-    else if (this.state.list.length === 0) {
+    else if (this.state.reservationList.length === 0) {
       return (
         <div>
           <label className="ContactForm-label">
@@ -190,10 +178,10 @@ class ContactFormPage extends Component {
             Lista rezerwacji
           </label>
           <ul className="ReservationList" onClick={(event) => {this.setSelected(event)}}>
-            {this.state.list.map( (reservation, index)=>
-              <li key={index} select-key={index} className={index==this.state.selectedReservation ? "SelectedReservation" : "Reservation"}>
+            {this.state.reservationList.map( (reservation, index)=>
+              <li key={index} select-key={index} className={index===this.state.selectedReservation ? "SelectedReservation" : "Reservation"}>
                 {
-                  reservation.data.trips.data.offer.data.name + ", " +
+                  reservation.data.offerName + ", " +
                   reservation.data.date.toDate().toLocaleString() + ", " +
                   "liczba zarezerwowanych uczestników: " + reservation.data.participants
                 }
@@ -220,10 +208,10 @@ class ContactFormPage extends Component {
       alert("Proszę podać powód zgłoszenia")
     else
       firestore.collection("/reports").add({
-        createdat: firebase.firestore.Timestamp.now(),
+        createdAt: firebase.firestore.Timestamp.now(),
         email: this.state.email,
         resolved: false,
-        trip: firestore.doc("/trips/" + this.state.list[this.state.selectedReservation].data.trips.id),
+        reservation: this.state.reservationList[this.state.selectedReservation].ref,
         type: this.message.value
       }).then(() => {
         console.log("dodano zgłoszenie")
@@ -231,8 +219,8 @@ class ContactFormPage extends Component {
           email: this.state.email,
           name: this.state.name,
           lastName: this.state.lastName,
-          list: this.state.list,
-          waitingForUI: this.state.waitingForUI,
+          reservationList: this.state.reservationList,
+          waitingForFetch: this.state.waitingForFetch,
           selectedReservation: this.state.selectedReservation,
           submitted: true,
         })
