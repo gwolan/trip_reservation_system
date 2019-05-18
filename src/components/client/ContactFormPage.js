@@ -112,7 +112,7 @@ class ContactFormPage extends Component {
       email: email,
       name: name,
       lastName: lastName,
-      reservationList: this.state.reservationList,
+      reservationList: [],
       waitingForFetch: true,
       selectedReservation: null,
       submitted: this.state.submitted,
@@ -142,7 +142,7 @@ class ContactFormPage extends Component {
         lastName: this.state.lastName,
         reservationList: this.state.reservationList,
         waitingForFetch: this.state.waitingForFetch,
-        selectedReservation: event.target.getAttribute('select-key'),
+        selectedReservation: parseInt(event.target.getAttribute('select-key')),
         submitted: this.state.submitted,
       })
     }
@@ -239,9 +239,11 @@ class ContactFormPage extends Component {
             Dziękujemy za zgłoszenie formularza
           </h1>
           <div style={{width: "auto", padding: "10px 80px 100px"}}>
-            <button className="ReturnButton">
-              <Link className="ReturnLink" to="/">Powrót do strony głównej</Link>
-            </button>
+            <Link className="ReturnLink" to="/">
+              <button className="ReturnButton">
+                Powrót do strony głównej
+              </button>
+            </Link>
           </div>
         </div>
       )

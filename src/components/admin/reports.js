@@ -15,7 +15,7 @@ class Reports extends Component {
     componentWillMount() {
         const reportsList = this;
 
-        firestore.collection("/reports").orderBy("createdat", "desc").get().then(function(col) {
+        firestore.collection("/reports").orderBy("createdAt", "desc").get().then(function(col) {
             reportsList.setReportList(col.docs.map(doc => ({id: doc.id, data: doc.data()})))
         }).catch(function(error) {
             console.log(error);

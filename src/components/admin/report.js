@@ -29,22 +29,17 @@ class Report extends Component {
         const index = this.props.id;
         const report = this.props.contents;
         e.preventDefault();
-
-        firestore.collection("/reservations").get().then(function(col) {
-            for (let  [id, data] of Object.entries(col.docs.map(doc => ({id: doc.id, data: doc.data()})))) {
-                if(data.data.email === report.email && data.data.trips.id === report.trip.id)
-                {
-                    firestore.collection("/reservations").doc(data.id).delete()
-                    firestore.collection("/reports").doc(index).update({
-                        resolved: true
-                    })
-                    console.log("Reservation deleted");
-                    break;
-                }
-              }
-        }).catch(function(error) {
-            console.log(error);
-        });
+        report.reservation.delete().then( () => {
+            firestore.collection("/reports").doc(index).update({
+                resolved: true
+            }).then(() => {
+                console.log("Reservation deleted")
+            }).catch((error) => {
+                console.log(error)
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
 
         this.setState({
             edit: false,
@@ -53,30 +48,33 @@ class Report extends Component {
       }
 
       editFunction(e) {
-        const thisReport = this;
         const report = this.props.contents;
         e.preventDefault();
 
-        firestore.collection("/reservations").get().then(function(col) {
-            for (let  [id, data] of Object.entries(col.docs.map(doc => ({id: doc.id, data: doc.data()})))) {
-                if(data.data.email === report.email && data.data.trips.id === report.trip.id)
-                {
-                    thisReport.setState({
-                        name: data.data.name,
-                        lastName: data.data.lastName,
-                        participants: data.data.participants,
-                        reservation: data
-                      })
-                    break;
-                }
-              }
+        report.reservation.get().then( (reservationDoc) => {
+            if(reservationDoc.exists) {
+                this.setState({
+                    name: reservationDoc.get("name"),
+                    lastName: reservationDoc.get("lastName"),
+                    participants: reservationDoc.get("participants"),
+                    reservation: reservationDoc.data()
+                })
+            }
+            else {
+                this.setState({
+                    name: null,
+                    lastName: null,
+                    participants: null,
+                    reservation: null,
+                })
+            }
         }).catch(function(error) {
             console.log(error);
         });
 
         this.setState({
             edit: true
-          })
+        })
       }
 
       hideEditFunction(e) {
@@ -87,12 +85,12 @@ class Report extends Component {
       }
 
       saveEditFunction(e) {
+        const report = this.props.contents;
         e.preventDefault();
-        firestore.collection("/reservations").doc(this.state.reservation.id).update({
+        report.reservation.update({
             name: this.state.name,
             lastName: this.state.lastName,
             participants: this.state.participants
-
         })
         firestore.collection("/reports").doc(this.props.id).update({
             resolved: true
