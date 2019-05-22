@@ -22,6 +22,26 @@ body {
     padding: 15px;
 }
 
+.buttonContainer {
+  background-color: #663333;
+  position: absolute;
+  float: left;
+  height: 10vh;
+}
+
+.buttonContainer:hover {
+  background-color: #884444;
+  position: absolute;
+  float: left;
+  height: 10vh;
+}
+
+.buttonContainer img {
+  filter: invert(100%);
+  height: 100%;
+  padding: 5px;
+}
+
 .img {
     box-sizing: border-box;
     width: 100%;
