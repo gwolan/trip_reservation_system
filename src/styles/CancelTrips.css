@@ -1,0 +1,9 @@
+.centered-element {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 5%;
+    margin-left: -50px;
+    top: 22%;
+    margin-top: -50px;
+  }
