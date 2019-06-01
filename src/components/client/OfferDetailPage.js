@@ -63,14 +63,10 @@ class OfferDetailPage extends Component {
         this.state.guides.forEach((guide) => console.log(guide))
         return (
             <div className="container">
-				<div className="headerContainer">
-					<div className="buttonContainer">
-						<a href="/">
-							<img src="https://image.flaticon.com/icons/png/512/53/53567.png" alt="backButton" />
-						</a>
-					</div>
-					<h1 className="offerHeader">{this.state.offer.name}</h1>
+				<div className="buttonContainer">
+					<a href="/"><img src="https://image.flaticon.com/icons/png/512/53/53567.png" alt="backButton" /></a>
 				</div>
+				<h1 className="offerHeader">{this.state.offer.name}</h1>
                 <img src={this.state.offer.photo} alt="Offer" className="img" />
                 <div className="offerContainer">
                     <h2 className="offerTitle">Opis wycieczki:</h2>
