@@ -7,3 +7,17 @@
     top: 22%;
     margin-top: -50px;
   }
+
+  .elem{
+    width: 100%;
+  }
+
+  .label{
+    font-size: 16px;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-weight: bold;
+    color: black;
+}

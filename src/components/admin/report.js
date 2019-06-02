@@ -33,7 +33,7 @@ class Report extends Component {
             firestore.collection("/reports").doc(index).update({
                 resolved: true
             }).then(() => {
-                console.log("Reservation deleted")
+                alert("Rezerwacja została usunieta")
             }).catch((error) => {
                 console.log(error)
             })
@@ -59,6 +59,7 @@ class Report extends Component {
                     participants: reservationDoc.get("participants"),
                     reservation: reservationDoc.data()
                 })
+                alert("Zmiany zostały zapisane")
             }
             else {
                 this.setState({
@@ -67,6 +68,7 @@ class Report extends Component {
                     participants: null,
                     reservation: null,
                 })
+                alert("Rezerwacja nie istnieje")
             }
         }).catch(function(error) {
             console.log(error);
