@@ -56,14 +56,18 @@ class Login extends Component {
       <div style={loginStyles}>
         <Toaster ref={(element) => { this.toaster = element }} />
         <form onSubmit={(event) => { this.authWithEmailPassword(event) }} ref={(form) => { this.loginForm = form }}>
-          <label className="pt-label">
-            Email
-            <input style={{width: "100%"}} name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
-          </label>
-          <label className="pt-label">
+          <div className="background">
+            <label className="label">
+              Email
+            </label>  
+          </div>
+            <input className="textfield" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
+          
+          <label className="label">
             Password
-            <input style={{width: "100%"}} name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
-          </label>
+          </label>  
+            <input className="textfield" name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
+          
           <hr style={{marginTop: "10px", marginBottom: "10px"}}/>
           <input style={{width: "100%"}} type="submit" value="Log In"></input>
         </form>

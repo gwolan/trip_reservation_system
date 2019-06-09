@@ -3,6 +3,7 @@ import {  BrowserRouter, Link, Route } from 'react-router-dom';
 import Login from './login';
 import Logout from './logout';
 import Reports from './reports';
+import CancelTrips from './cancelTrips';
 import  {app}  from '../../utilities/base';
 import './../../styles/AdminPage.css';
 class adminPage extends Component {
@@ -59,10 +60,12 @@ class adminPage extends Component {
           <BrowserRouter>
             <ul className="App-NaviBar">
               <Link className="App-NaviBar-Button" to="/logout">Log Out </Link>
-              <Link className="App-NaviBar-Button" to="/reports">Reports </Link
-            ></ul>
+              <Link className="App-NaviBar-Button" to="/reports">Reports </Link>
+              <Link className="App-NaviBar-Button" to="/canceltrips">Cancel Trips </Link>
+            </ul>
             <Route exact path="/reports" component ={Reports}/>
             <Route exact path="/logout" component ={Logout}/>
+            <Route exact path="/canceltrips" component ={CancelTrips}/>
           </BrowserRouter>
         </div>
       </div>

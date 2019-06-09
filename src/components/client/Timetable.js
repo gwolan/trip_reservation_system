@@ -181,6 +181,9 @@ class Timetable extends Component {
     render() {
         return (
             <div className="container">
+                <div className="buttonContainer">
+                    <a href={"/offerDetail/" + this.props.match.params.id}><img src="https://image.flaticon.com/icons/png/512/53/53567.png" alt="backButton" /></a>
+                </div>
                 <h1 className="timetableHeader">Harmonogram</h1>
                 <div className="timetableContainer">
                     <DatePicker className="datePicker"
