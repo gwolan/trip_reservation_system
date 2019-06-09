@@ -21,26 +21,6 @@ class OfferDetailPage extends Component {
         let gg = []
         const offers = firestore.collection('/offers').doc(this.props.match.params.id).get()
 
-     /*   offers.then((response) => {
-            const offer = response.data()
-            this.setState({ offer: offer })
-            const trips = offer.trips
-            console.log(trips)
-            trips.forEach(element => {
-                element.get().then(data => {
-                    let guides = data.data().guides
-                    guides.forEach(element => {
-                        element.get().then(guide => {
-                            gg.push(guide.data())
-                            this.setState({
-                                guides: gg
-                            })
-                        })
-                    })
-                })
-            })
-        }) */
-
         offers.then(response => {
             const offer = response.data()
             this.setState({ offer: offer })
