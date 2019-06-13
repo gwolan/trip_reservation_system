@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import  {firestore}  from '../../utilities/base';
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
 import './../../styles/CancelTrips.css'
 
 const styles = {
@@ -34,7 +35,7 @@ class Reports extends Component {
         this.setState({ offer: firestore.collection("/offers").doc(event.target.value) });
       }
 
-      cancelFunction(e) {
+      async cancelFunction(e) {
         e.preventDefault();
         const canceltrips = this;
         var offerId = canceltrips.state.offer.id;
@@ -54,9 +55,15 @@ class Reports extends Component {
                     });
 
                     //usuwanie rezerwacji
-                    firestore.collection("/offers/"+offerId.toString()+"/trips/"+data.id.toString()+"/reservations").get().then(function(col2) {
+                    firestore.collection("/offers/"+offerId.toString()+"/trips/"+data.id.toString()+"/reservations").get().then( function(col2) {
                       for (let  [id2, data2] of Object.entries(col2.docs.map(doc2 => ({id2: doc2.id, data2: doc2.data()})))) {
-                        firestore.collection("/offers/"+offerId.toString()+"/trips/"+data.id.toString()+"/reservations").doc(data2.id2).delete()
+                          //wysyłanie maila
+                        firestore.collection("/offers/"+offerId.toString()+"/trips/"+data.id.toString()+"/reservations").doc(data2.id2).delete().then(async () => {
+                          const form = await axios.post('/api/form', {
+                            text: `Z przyczyn technicznych Twoja rezerwacja na dzień ${data2.data2.date.toDate().toDateString()} na osobę ${data2.data2.name} ${data2.data2.lastName} została usunięta. Wycieczki z wybranej oferty nie będą możliwe danego dnia. Przepraszamy i zapraszamy na wycieczkę w innym dniu`,
+                            id: data2.data2.email     
+                            })
+                        })
                       }}).catch(function(error) {
                         console.log(error);
                       });

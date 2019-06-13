@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import  {firestore}  from '../../utilities/base';
 import './../../styles/Report.css';
+import axios from 'axios';
+import { debug } from 'util';
+
 
 class Report extends Component {
 
@@ -21,6 +24,7 @@ class Report extends Component {
             name: "",
             lastName: "",
             participants: 0,
+            date: "",
             reservation: null
         };
       }
@@ -28,12 +32,18 @@ class Report extends Component {
       deleteFunction(e) {
         const index = this.props.id;
         const report = this.props.contents;
+        const t = this.state;
+
         e.preventDefault();
         report.reservation.delete().then( () => {
             firestore.collection("/reports").doc(index).update({
                 resolved: true
-            }).then(() => {
-                alert("Rezerwacja została usunieta")
+            }).then(async () => {
+                alert("Rezerwacja ${t.name} ${t.lastName} została usunieta")
+                const form = await axios.post('/api/form', {
+                    text: `Rezerwacja na dzień ${t.date.toDate().toDateString()}  na osobę ${t.name} ${t.lastName} została usunięta`,
+                    id: report.email
+                })
             }).catch((error) => {
                 console.log(error)
             })
@@ -57,7 +67,8 @@ class Report extends Component {
                     name: reservationDoc.get("name"),
                     lastName: reservationDoc.get("lastName"),
                     participants: reservationDoc.get("participants"),
-                    reservation: reservationDoc.data()
+                    reservation: reservationDoc.data(),
+                    date: reservationDoc.get("date")
                 })
             }
             else {
@@ -84,14 +95,17 @@ class Report extends Component {
           })
       }
 
-      saveEditFunction(e) {
+      async saveEditFunction(e) {
         const report = this.props.contents;
+        const t = this.state;
+
         e.preventDefault();
         report.reservation.update({
             name: this.state.name,
             lastName: this.state.lastName,
             participants: this.state.participants
         })
+
         firestore.collection("/reports").doc(this.props.id).update({
             resolved: true
         })
@@ -99,6 +113,11 @@ class Report extends Component {
             edit: false,
             resolved: true
           })
+
+        const form = await axios.post('/api/form', {
+            text: `Rezerwacja na dzień ${t.date.toDate().toDateString()} na osobę ${t.name} ${t.lastName} została edytowana. Aktualna liczba zarezerwowanych miejsc: ${t.participants}`,
+            id: report.email
+        })
       }
 
       handleNameChange(event) {
