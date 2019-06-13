@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import  {firestore}  from '../../utilities/base';
 import './../../styles/Report.css';
 
+const nodemailer = require('nodemailer')
+
+
 class Report extends Component {
 
     constructor(props) {
@@ -34,6 +37,38 @@ class Report extends Component {
                 resolved: true
             }).then(() => {
                 alert("Rezerwacja została usunieta")
+                nodemailer.createTestAccount((err, account) => {
+                    const htmlEmail = `
+                        <h3>ZOO WROCŁAW - INFO W SPRAWIE REZERWACJI</h3>
+                        <p><b>Rezerwacja została usunięta</b></p>
+                        Pozdrawiam
+                    `
+                    const transporter = nodemailer.createTransport({
+                        host: 'smtp.ethereal.email',
+                        port: 587,
+                        auth: {
+                            user: 'monica8@ethereal.email',
+                            pass: 'dGSuNadSZ57K2NHRqB'
+                        }
+                    })
+
+                    let mailOptions = {
+                        from: 'admin@zoowroc.pl',
+                        to: 'monica8@ethereal.email',
+                        subject: 'ZOO WROCŁAW - USUNIETO REZERWACJĘ',
+                        text: 'Rezerwacja została usunięta',
+                        html: htmlEmail
+                    }
+
+                    transporter.sendMail(mailOptions, (err, info) => {
+                        if (err) {
+                            return console.log(err)
+                        }
+
+                        console.log('Message sent: %s', info.message)
+                        console.log('Message URL: %s', nodemailer.getTestMessageUrl(info))
+                    })
+                })
             }).catch((error) => {
                 console.log(error)
             })
