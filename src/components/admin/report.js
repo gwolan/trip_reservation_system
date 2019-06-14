@@ -39,7 +39,7 @@ class Report extends Component {
             firestore.collection("/reports").doc(index).update({
                 resolved: true
             }).then(async () => {
-                alert("Rezerwacja ${t.name} ${t.lastName} została usunieta")
+                alert("Rezerwacja została usunieta")
                 const form = await axios.post('/api/form', {
                     text: `Rezerwacja na dzień ${t.date.toDate().toDateString()}  na osobę ${t.name} ${t.lastName} została usunięta`,
                     id: report.email

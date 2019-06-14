@@ -16,16 +16,16 @@ app.post('/api/form', (req, res) => {
             Pozdrawiam
         `
         const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
+            service: 'gmail',
             port: 587,
             auth: {
-                user: 'monica8@ethereal.email',
-                pass: 'dGSuNadSZ57K2NHRqB'
+                user: 'zoosystemrezerwacji@gmail.com',
+                pass: 'projektZespolowy '
             }
         })
 
         let mailOptions = {
-            from: 'admin@zoowroc.pl',
+            from: 'zoosystemrezerwacji@gmail.com',
             to: req.body.id,
             subject: 'ZOO WROCŁAW',
             text: req.body.text,
