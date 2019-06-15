@@ -32,7 +32,6 @@ class Reports extends Component {
       }
 
       handleChangeOffer = (event) => {
-        console.log(event.target.value.substring(0, event.target.value.indexOf(" ")));
         this.setState({ offer: firestore.collection("/offers").doc(event.target.value.substring(0, event.target.value.indexOf(" "))) });
       }
 
