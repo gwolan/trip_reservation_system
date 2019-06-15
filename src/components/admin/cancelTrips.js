@@ -32,7 +32,8 @@ class Reports extends Component {
       }
 
       handleChangeOffer = (event) => {
-        this.setState({ offer: firestore.collection("/offers").doc(event.target.value) });
+        console.log(event.target.value.substring(0, event.target.value.indexOf(" ")));
+        this.setState({ offer: firestore.collection("/offers").doc(event.target.value.substring(0, event.target.value.indexOf(" "))) });
       }
 
       async cancelFunction(e) {
@@ -105,7 +106,7 @@ class Reports extends Component {
 
     render() {
         var ItemId = function(X) {
-            return <option>{X.id}</option>;
+            return <option>{X.id} {X.data.name}</option>;
           };
         return (
             <div style={styles}>
