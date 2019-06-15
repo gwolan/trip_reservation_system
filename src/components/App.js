@@ -5,7 +5,8 @@ import MainPage from './client/mainPage'
 import AdminPage from './admin/adminPage'
 import OfferDetailPage from './client/OfferDetailPage'
 import ContactFormPage from './client/ContactFormPage'
-import Timetable from './client/Timetable';
+import Timetable from './client/Timetable'
+import Reservation from './client/Reservation'
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route exact path="/offerDetail/:id" component = {OfferDetailPage}/>
           <Route exact path="/contactForm" component = {ContactFormPage}/>
           <Route exact path="/timetable/:id" component = {Timetable}/>
+          <Route exact path="/reservation" component = {Reservation} />
         </BrowserRouter>
       </div>
     </div>

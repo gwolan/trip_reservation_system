@@ -94,7 +94,7 @@ class Timetable extends Component {
                         // mam przedownikow i rezerwacje teraz trzeba to wszystko polaczyc w jedna dana
                         trip.dates.forEach(date => {
                             map.set(date.toDate().getTime(), gg.map(g=> {
-                                return {guide: g, participants: 0}
+                                return {guide: g, participants: 0, trip: trip}
                             }))
                             this.setState({
                                 startDate: currentDate,
@@ -155,7 +155,11 @@ class Timetable extends Component {
                     <th>{moment(key).local().format('HH:mm')}</th>
                     {this.state.reservations.get(key).map(val => {
                         return (
-                            <th>{val.participants}/30 <Button className="button" variant="primary" size="lg" active>REZERWUJ</Button></th>
+                            <th>{val.participants}/30 
+                            <Link to={`/reservation?offerId=${this.props.match.params.id}&tripId=${val.trip.id}&guideId=${val.guide.id}&date=${key}&participants=${val.participants}`}>
+                                <Button className="button" variant="primary" size="lg" active>REZERWUJ</Button>
+                            </Link>
+                            </th>
                         )
                     })}
                 </tr>
