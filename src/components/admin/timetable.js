@@ -72,11 +72,12 @@ class timetable extends Component {
 
     handleChangeGuide = (event) => {
 		const e = event.target.value;
-		const t = this;  
-		this.setState({ guide: firestore.collection("/guides").doc(e),
-						addGuides: this.state.addGuides.concat(firestore.collection("/guides").doc(e))
+		const t = this; 
+		
+		this.setState({ guide: firestore.collection("/guides").doc(e.substring(0, e.indexOf(" "))),
+						addGuides: this.state.addGuides.concat(firestore.collection("/guides").doc(e.substring(0, e.indexOf(" "))))
 					});
-		firestore.collection("/guides").doc(e).get().then(function(doc) {
+		firestore.collection("/guides").doc(e.substring(0, e.indexOf(" "))).get().then(function(doc) {
 		t.setState({
 			guideName: doc.data().name+" "+doc.data().lastName
 		})
@@ -84,7 +85,7 @@ class timetable extends Component {
     }
 	
     handleChangeOffer = (event) => {
-      this.setState({ offer: firestore.collection("/offers").doc(event.target.value) });
+      this.setState({ offer: firestore.collection("/offers").doc(event.target.value.substring(0, event.target.value.indexOf(" "))) });
     }
 
    addTrip(e)
@@ -148,10 +149,12 @@ class timetable extends Component {
 
     render(){
 
-      var ItemId = function(X) {
-        return <option>{X.id}</option>;
+      var ItemGuide = function(X) {
+        return <option>{X.id} - {X.data.name} {X.data.lastName}</option>;
       };
-	  
+	  var ItemOffer = function(X) {
+        return <option>{X.id} - {X.data.name}</option>;
+      };
       return (
         <div style={timeTableStyles}>
           <div>
@@ -192,18 +195,15 @@ class timetable extends Component {
                     <label className="label" for="guides">Przewodnik:</label>
                   </div>
                   <div>
-                    <select style={{width: "100%"}} onChange={this.handleChangeGuide}>{this.state.guides.map(ItemId)}</select>
+                    <select style={{width: "100%"}} onChange={this.handleChangeGuide}>{this.state.guides.map(ItemGuide)}</select>
                   </div>
 				  <button className ="Button" onClick={this.clearFunction2}>Wyczyść</button>
-				  <div>
-					<h3>{this.state.guide.id} - {this.state.guideName}</h3>
-                  </div>
 				  
                   <div>
                     <label className="label"  for="offers">Oferta:</label>
                   </div>
                   <div>
-                    <select style={{width: "100%"}} onChange={this.handleChangeOffer}>{this.state.offers.map(ItemId)}</select>
+                    <select style={{width: "100%"}} onChange={this.handleChangeOffer}>{this.state.offers.map(ItemOffer)}</select>
                   </div>
                   <hr style={{marginTop: "10px", marginBottom: "10px"}}/>
 				<div>
