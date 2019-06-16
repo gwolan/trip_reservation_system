@@ -15,13 +15,27 @@ In the project directory, you can run:
 
 Installs necessary node modules.
 
+### `npm run server`
+
+Runs the server.
+You probabably shouldn't run this on it's own, unless you know what you're doing.
+Instead use "npm run dev".
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
+You probabably shouldn't run this on it's own, unless you know what you're doing.
+Instead use "npm run dev".
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
+
+### `npm run dev`
+
+Runs server and client side concurrently.
+Use this to start the app and server in the development mode.
 
 ### `npm test`
 
