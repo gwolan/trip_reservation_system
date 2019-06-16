@@ -1,0 +1,33 @@
+.successHeader {
+    background-color: #663333;
+    min-height: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding: 15px
+}
+
+.successContainer {
+    background-color: #883333;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.buttonSuccess {
+    padding: 3px 3px;
+    font-size: calc(10px + 0.5vmin);
+    width: 300px;
+    align-self: center;
+    background-color: #eeccaa;
+    color: #883333;
+    font-weight: bold;
+}

@@ -7,6 +7,7 @@ import OfferDetailPage from './client/OfferDetailPage'
 import ContactFormPage from './client/ContactFormPage'
 import Timetable from './client/Timetable'
 import Reservation from './client/Reservation'
+import Success from './client/Success'
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
           <Route exact path="/contactForm" component = {ContactFormPage}/>
           <Route exact path="/timetable/:id" component = {Timetable}/>
           <Route exact path="/reservation" component = {Reservation} />
+          <Route exact path="/success" component = {Success} />
         </BrowserRouter>
       </div>
     </div>
