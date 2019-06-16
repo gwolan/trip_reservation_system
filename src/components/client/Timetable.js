@@ -81,7 +81,6 @@ class Timetable extends Component {
                 let rr = []
                 let gg = []
                 reservations.then(response => { // TODO na razie jest jeden
-                    console.log(response.docs[0].data())
                     rr = response.docs.map(doc => doc.data())
                     guides.then(response => {
                         console.log(response.docs[0].data())
